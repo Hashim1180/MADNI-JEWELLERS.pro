@@ -1,0 +1,208 @@
+<!-- Custom Cursor Elements -->
+<div #cursor class="custom-cursor hidden md:block"></div>
+<div #cursorDot class="custom-cursor-dot hidden md:block"></div>
+
+@if (showIntro()) {
+  <app-intro-animation (animationFinished)="onAnimationFinished()"></app-intro-animation>
+} @else {
+  <div class="flex flex-col min-h-screen animate-fade-in relative z-10">
+    
+    <!-- Floating Glass Command Bar (Navbar) -->
+    <header class="fixed top-0 left-0 right-0 z-50 p-4 pointer-events-none">
+      <nav class="container mx-auto bg-black/40 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3 flex justify-between items-center shadow-2xl pointer-events-auto transition-all duration-300 hover:border-white/20 hover:bg-black/60">
+        
+        <!-- Logo -->
+        <a routerLink="/" (click)="closeMenus()" class="cursor-pointer flex items-center group">
+           <svg class="h-10 w-auto transition-transform duration-500 group-hover:scale-110" viewBox="0 0 400 120">
+             <defs>
+                <linearGradient id="header-logo-gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#FFFDE4;" />
+                  <stop offset="100%" style="stop-color:#B8860B;" />
+                </linearGradient>
+              </defs>
+              <text x="10" y="60" font-family="'Cinzel', serif" font-weight="700" font-size="28" fill="url(#header-logo-gold-gradient)" letter-spacing="4">MADNI</text>
+              <g transform="translate(142, 0) scale(0.7)">
+                <path d="M 10 20 L 75 50 L 95 0 L 115 50 L 180 20 L 95 90 Z" fill="url(#header-logo-gold-gradient)"/>
+              </g>
+              <text x="260" y="60" font-family="'Cinzel', serif" font-weight="700" font-size="28" fill="url(#header-logo-gold-gradient)" letter-spacing="4">JEWELLERS</text>
+           </svg>
+        </a>
+
+        <!-- Desktop Links -->
+        <div class="hidden lg:flex items-center space-x-8 font-tech text-sm tracking-widest uppercase">
+          <a routerLink="/" (click)="closeMenus()" class="text-gray-400 hover:text-white hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] transition-all">Hub</a>
+          <a routerLink="/products" (click)="closeMenus()" class="text-gray-400 hover:text-white hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] transition-all">Vault</a>
+          
+          <div class="relative group">
+            <button (click)="toggleAiFeaturesMenu()" class="flex items-center text-gray-400 hover:text-white hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] transition-all">
+              <span class="mr-2">AI Systems</span>
+              <i class="fas fa-microchip text-xs opacity-70 group-hover:text-cyan-400 transition-colors"></i>
+            </button>
+            @if (isAiFeaturesMenuOpen()) {
+              <div class="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 bg-[#0a0a0f]/90 backdrop-blur-2xl border border-white/10 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.8)] overflow-hidden animate-fade-in-up">
+                 <div class="p-1 bg-gradient-to-b from-white/10 to-transparent">
+                  <a routerLink="/market-watch" (click)="closeMenus()" class="block px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-cyan-400 transition-all flex items-center"><i class="fas fa-chart-line w-6 text-xs"></i> Market Watch</a>
+                  <a routerLink="/virtual-try-on" (click)="closeMenus()" class="block px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-cyan-400 transition-all flex items-center"><i class="fas fa-camera w-6 text-xs"></i> Virtual Mirror</a>
+                  <a routerLink="/design-studio" (click)="closeMenus()" class="block px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-cyan-400 transition-all flex items-center"><i class="fas fa-pen-fancy w-6 text-xs"></i> Design Studio</a>
+                  <a routerLink="/soulbound-jewels" (click)="closeMenus()" class="block px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-cyan-400 transition-all flex items-center"><i class="fas fa-gem w-6 text-xs"></i> Soulbound</a>
+                 </div>
+              </div>
+            }
+          </div>
+
+          <div class="relative group">
+            <button (click)="toggleCompanyMenu()" class="flex items-center text-gray-400 hover:text-white hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] transition-all">
+              <span>Client</span>
+              <i class="fas fa-plus ml-2 text-xs opacity-50"></i>
+            </button>
+            @if (isCompanyMenuOpen()) {
+              <div class="absolute top-full right-0 mt-4 w-56 bg-[#0a0a0f]/90 backdrop-blur-2xl border border-white/10 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.8)] overflow-hidden animate-fade-in-up">
+                 <div class="p-1">
+                   @if(authService.currentUser()) {
+                     <a routerLink="/client-ledger" (click)="closeMenus()" class="block px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-cyan-400 transition-all">Ledger</a>
+                   }
+                  <a routerLink="/order-tracking" (click)="closeMenus()" class="block px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-cyan-400 transition-all">Track Signal</a>
+                  <a routerLink="/admin" (click)="closeMenus()" class="block px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-cyan-400 transition-all">Terminal</a>
+                 </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center space-x-6">
+          @if(authService.currentUser()) {
+            <div class="hidden md:flex items-center space-x-4 border-r border-white/10 pr-6">
+              <span class="text-xs text-cyan-400 font-mono tracking-tighter">USER: {{ authService.currentUser() | uppercase }}</span>
+              <button (click)="authService.logout()" class="text-xs text-red-400 hover:text-red-300 font-bold uppercase tracking-widest">Disconnect</button>
+            </div>
+          } @else {
+             <button (click)="authService.showLoginModal.set(true)" class="hidden md:block text-xs font-bold text-gray-300 hover:text-white uppercase tracking-widest hover:underline decoration-cyan-400 underline-offset-4">Authenticate</button>
+          }
+
+          <button (click)="toggleCart()" class="relative group">
+              <i class="fas fa-shopping-bag text-lg text-white group-hover:text-gold transition-colors"></i>
+              @if(cartService.cartCount() > 0) {
+                <span class="absolute -top-2 -right-2 bg-cyan-500 text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-pulse">{{ cartService.cartCount() }}</span>
+              }
+          </button>
+          
+          <div class="md:hidden">
+            <button (click)="toggleMobileMenu()" class="text-white text-xl">
+                <i class="fas" [class]="isMobileMenuOpen() ? 'fa-times' : 'fa-bars-staggered'"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+     <!-- Mobile Menu Overlay -->
+    @if(isMobileMenuOpen()){
+      <div class="fixed inset-0 bg-black/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8 animate-fade-in md:hidden">
+        <a routerLink="/" (click)="closeMenus()" class="text-3xl font-display text-white hover:text-cyan-400">HUB</a>
+        <a routerLink="/products" (click)="closeMenus()" class="text-3xl font-display text-white hover:text-cyan-400">VAULT</a>
+        <div class="h-px w-20 bg-white/10"></div>
+        <a routerLink="/market-watch" (click)="closeMenus()" class="text-xl font-tech text-gray-400">MARKET WATCH</a>
+        <a routerLink="/virtual-try-on" (click)="closeMenus()" class="text-xl font-tech text-gray-400">VIRTUAL TRY-ON</a>
+        <a routerLink="/design-studio" (click)="closeMenus()" class="text-xl font-tech text-gray-400">DESIGN STUDIO</a>
+        <a routerLink="/soulbound-jewels" (click)="closeMenus()" class="text-xl font-tech text-gray-400">SOULBOUND</a>
+      </div>
+    }
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Chatbot -->
+    <app-chatbot></app-chatbot>
+
+    <!-- Cart Sidebar -->
+    @if(cartService.isCartOpen()) {
+       <div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50" (click)="toggleCart()"></div>
+       <div class="fixed top-0 right-0 h-full w-full max-w-md bg-[#050505] border-l border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] z-50 flex flex-col transform transition-transform duration-500 cubic-bezier(0.19, 1, 0.22, 1)" 
+          [class.translate-x-0]="cartService.isCartOpen()" 
+          [class.translate-x-full]="!cartService.isCartOpen()">
+        <div class="flex justify-between items-center p-8 border-b border-white/5 bg-white/5">
+          <h2 class="text-2xl font-display font-bold text-white tracking-widest">SELECTION</h2>
+          <button (click)="toggleCart()" class="text-gray-500 hover:text-white transition-colors"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        
+         @if(cartService.cart().length === 0) {
+          <div class="flex-grow flex flex-col items-center justify-center text-center opacity-50">
+            <i class="fas fa-cube text-4xl mb-4 text-cyan-900"></i>
+            <p class="font-tech text-sm tracking-widest">NO ARTIFACTS SELECTED</p>
+          </div>
+        } @else {
+          <div class="flex-grow p-6 overflow-y-auto space-y-6">
+            @for (item of cartService.cart(); track item.product.id) {
+              <div class="flex items-center space-x-4 bg-white/5 p-4 rounded-lg border border-white/5 hover:border-gold/30 transition-colors group">
+                <img [src]="item.product.imageUrl" [alt]="item.product.name" class="w-20 h-20 object-cover rounded grayscale group-hover:grayscale-0 transition-all duration-500">
+                <div class="flex-grow">
+                  <p class="font-display font-bold text-white text-sm tracking-wide">{{ item.product.name }}</p>
+                  <p class="text-xs text-gray-500 font-mono mt-1">QTY: {{ item.quantity }}</p>
+                  <p class="text-gold font-bold mt-2 font-mono">${{ (item.product.price * item.quantity).toLocaleString() }}</p>
+                </div>
+                <button (click)="cartService.removeFromCart(item.product.id)" class="text-red-900 hover:text-red-500 transition-colors p-2">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            }
+          </div>
+          <div class="p-8 border-t border-white/5 bg-white/5">
+            <div class="flex justify-between items-center mb-6 font-mono">
+              <span class="text-gray-400">TOTAL ESTIMATE</span>
+              <span class="text-2xl font-bold text-gold">${{ cartService.cartTotal().toLocaleString() }}</span>
+            </div>
+            <a routerLink="/appointment" (click)="toggleCart()" class="btn-premium block w-full py-4 text-center rounded-sm">
+              Initialize Acquisition
+            </a>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Footer / System Status -->
+    <footer class="border-t border-white/5 bg-black mt-20">
+      <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 font-tech text-xs tracking-widest text-gray-500">
+          <div class="col-span-1 md:col-span-2">
+            <h3 class="text-white font-display text-xl mb-6">MADNI JEWELLERS</h3>
+            <p class="leading-relaxed opacity-60 max-w-md">Orchestrating the convergence of heritage craftsmanship and artificial intelligence. Establishing new paradigms in luxury acquisition since 1980.</p>
+          </div>
+          <div>
+             <h3 class="text-white mb-6 border-b border-white/10 pb-2 inline-block">NEURAL LINKS</h3>
+            <ul class="space-y-3">
+              <li><a routerLink="/market-watch" class="hover:text-cyan-400 transition-colors">MARKET_WATCH_V2</a></li>
+              <li><a routerLink="/virtual-try-on" class="hover:text-cyan-400 transition-colors">VIRTUAL_MIRROR</a></li>
+              <li><a routerLink="/design-studio" class="hover:text-cyan-400 transition-colors">DESIGN_PROTOCOL</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-white mb-6 border-b border-white/10 pb-2 inline-block">NETWORK</h3>
+            <div class="flex flex-col space-y-4">
+              <a href="https://www.tiktok.com/@madnijewellers" target="_blank" class="flex items-center space-x-2 hover:text-cyan-400 transition-colors">
+                <i class="fab fa-tiktok text-xl"></i>
+                <span>@madnijewellers</span>
+              </a>
+              <a href="https://www.instagram.com/madnijewellers" target="_blank" class="flex items-center space-x-2 hover:text-cyan-400 transition-colors">
+                <i class="fab fa-instagram text-xl"></i>
+                <span>@madnijewellers</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-12 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p class="text-[10px] opacity-40">SYSTEM VERSION 4.0.1 // MADNI CORP © 2024</p>
+          <div class="bg-white/5 px-4 py-2 rounded-full border border-white/5">
+            <app-system-guardian></app-system-guardian>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+}
+@if(authService.showLoginModal()) {
+  <app-login></app-login>
+}

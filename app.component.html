@@ -1,0 +1,181 @@
+@if (showIntro()) {
+  <app-intro-animation (animationFinished)="onAnimationFinished()"></app-intro-animation>
+} @else {
+  <div class="flex flex-col min-h-screen bg-black text-gray-200 animate-fade-in">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-glass shadow-lg shadow-black/50">
+      <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <a routerLink="/" (click)="closeMenus()" class="text-3xl font-bold tracking-wider text-shine cursor-pointer h-12 flex items-center">
+           <svg class="h-14 w-auto" viewBox="0 0 190 100" fill="currentColor">
+              <path d="M 10 20 L 75 50 L 95 0 L 115 50 L 180 20 L 95 90 Z"/>
+           </svg>
+        </a>
+        <div class="hidden md:flex items-center space-x-6">
+          <a routerLink="/" (click)="closeMenus()" class="hover:text-shine transition-colors duration-300 cursor-pointer">Home</a>
+          <a routerLink="/products" (click)="closeMenus()" class="hover:text-shine transition-colors duration-300 cursor-pointer">Products</a>
+          
+          <div class="relative">
+            <button (click)="toggleAiFeaturesMenu()" class="hover:text-shine transition-colors duration-300 flex items-center">
+              AI Experiences <i class="fas fa-chevron-down ml-2 text-xs"></i>
+            </button>
+            @if (isAiFeaturesMenuOpen()) {
+              <div class="absolute top-full mt-2 w-64 bg-gray-900 rounded-md shadow-xl z-50 p-2 border border-gray-700 animate-fade-in">
+                <a routerLink="/virtual-try-on" (click)="closeMenus()" class="block px-4 py-2 text-gray-300 hover:bg-amber-600/20 hover:text-amber-300 rounded-md">Virtual Try-On</a>
+                <a routerLink="/design-studio" (click)="closeMenus()" class="block px-4 py-2 text-gray-300 hover:bg-amber-600/20 hover:text-amber-300 rounded-md">Bespoke Design Studio</a>
+                <a routerLink="/soulbound-jewels" (click)="closeMenus()" class="block px-4 py-2 text-gray-300 hover:bg-amber-600/20 hover:text-amber-300 rounded-md">AI Soulbound Jewels</a>
+              </div>
+            }
+          </div>
+
+          <div class="relative">
+            <button (click)="toggleCompanyMenu()" class="hover:text-shine transition-colors duration-300 flex items-center">
+              Services <i class="fas fa-chevron-down ml-2 text-xs"></i>
+            </button>
+            @if (isCompanyMenuOpen()) {
+              <div class="absolute top-full mt-2 w-56 bg-gray-900 rounded-md shadow-xl z-50 p-2 border border-gray-700 animate-fade-in">
+                <a routerLink="/order-tracking" (click)="closeMenus()" class="block px-4 py-2 text-gray-300 hover:bg-amber-600/20 hover:text-amber-300 rounded-md">Order Tracking</a>
+                <a routerLink="/admin" (click)="closeMenus()" class="block px-4 py-2 text-gray-300 hover:bg-amber-600/20 hover:text-amber-300 rounded-md">Admin Panel</a>
+              </div>
+            }
+          </div>
+        </div>
+        <div class="flex items-center space-x-6">
+          @if(authService.currentUser()) {
+            <div class="hidden md:flex items-center space-x-4">
+              <span class="text-gray-300">Welcome, {{ authService.currentUser() }}</span>
+              <button (click)="authService.logout()" class="text-amber-400 hover:text-white text-sm font-semibold">Logout</button>
+            </div>
+          } @else {
+             <button (click)="authService.showLoginModal.set(true)" class="hidden md:block hover:text-shine transition-colors font-semibold">Login</button>
+          }
+
+          <button (click)="toggleCart()" class="relative text-2xl hover:text-shine transition-colors">
+              <i class="fas fa-shopping-bag"></i>
+              @if(cartService.cartCount() > 0) {
+                <span class="absolute -top-1 -right-2 bg-amber-500 text-black text-xs w-5 h-5 rounded-full flex items-center justify-center">{{ cartService.cartCount() }}</span>
+              }
+          </button>
+          <div class="md:hidden z-[1000]">
+            <button (click)="toggleMobileMenu()" class="hamburger-button" [class.active]="isMobileMenuOpen()">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="circular-wipe-menu md:hidden" [class.active]="isMobileMenuOpen()">
+      <div class="flex flex-col items-center justify-center h-full text-center space-y-6 text-2xl">
+        <a routerLink="/" (click)="closeMenus()" class="text-gray-300 hover:text-shine" style="transition-delay: 0.2s;">Home</a>
+        <a routerLink="/products" (click)="closeMenus()" class="text-gray-300 hover:text-shine" style="transition-delay: 0.3s;">Products</a>
+        <a routerLink="/virtual-try-on" (click)="closeMenus()" class="text-gray-300 hover:text-shine" style="transition-delay: 0.4s;">Virtual Try-On</a>
+        <a routerLink="/design-studio" (click)="closeMenus()" class="text-gray-300 hover:text-shine" style="transition-delay: 0.5s;">Design Studio</a>
+        <a routerLink="/soulbound-jewels" (click)="closeMenus()" class="text-gray-300 hover:text-shine" style="transition-delay: 0.6s;">Soulbound Jewels</a>
+        <a routerLink="/order-tracking" (click)="closeMenus()" class="text-gray-300 hover:text-shine" style="transition-delay: 0.7s;">Order Tracking</a>
+        <div class="border-t border-gray-700 w-1/2 my-4" style="transition-delay: 0.8s;"></div>
+        @if(authService.currentUser()) {
+          <div class="flex flex-col items-center space-y-4">
+              <span class="text-gray-400 text-xl" style="transition-delay: 0.9s;">Welcome, {{ authService.currentUser() }}</span>
+              <button (click)="authService.logout(); closeMenus()" class="text-amber-400 hover:text-white font-semibold" style="transition-delay: 1.0s;">Logout</button>
+          </div>
+        } @else {
+          <button (click)="authService.showLoginModal.set(true); closeMenus()" class="text-gray-300 hover:text-shine font-semibold" style="transition-delay: 0.9s;">Login</button>
+        }
+      </div>
+    </div>
+
+    @if(authService.showLoginModal()) {
+      <app-login></app-login>
+    }
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Chatbot -->
+    <app-chatbot></app-chatbot>
+
+    <!-- Cart Sidebar -->
+    @if(cartService.isCartOpen()) {
+      <div class="fixed inset-0 bg-black/60 z-50" (click)="toggleCart()"></div>
+      <div class="fixed top-0 right-0 h-full w-full max-w-md bg-gray-900 shadow-2xl z-50 flex flex-col transform transition-transform duration-300" 
+          [class.translate-x-0]="cartService.isCartOpen()" 
+          [class.translate-x-full]="!cartService.isCartOpen()">
+        <div class="flex justify-between items-center p-6 border-b border-gray-700">
+          <h2 class="text-2xl font-bold text-shine">Your Selection</h2>
+          <button (click)="toggleCart()" class="text-2xl hover:text-white">&times;</button>
+        </div>
+
+        @if(cartService.cart().length === 0) {
+          <div class="flex-grow flex flex-col items-center justify-center text-center">
+            <i class="fas fa-shopping-bag text-6xl text-gray-600 mb-4"></i>
+            <p class="text-gray-400">Your selection is empty.</p>
+          </div>
+        } @else {
+          <div class="flex-grow p-6 overflow-y-auto space-y-4">
+            @for (item of cartService.cart(); track item.product.id) {
+              <div class="flex items-center space-x-4">
+                <img [src]="item.product.imageUrl" [alt]="item.product.name" class="w-20 h-20 object-cover rounded-md">
+                <div class="flex-grow">
+                  <p class="font-bold text-white">{{ item.product.name }}</p>
+                  <p class="text-sm text-gray-400">Qty: {{ item.quantity }}</p>
+                  <p class="text-amber-400 font-semibold">${{ (item.product.price * item.quantity).toLocaleString() }}</p>
+                </div>
+                <button (click)="cartService.removeFromCart(item.product.id)" class="text-gray-500 hover:text-red-500 transition-colors">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            }
+          </div>
+          <div class="p-6 border-t border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-xl font-bold">Total</span>
+              <span class="text-2xl font-bold text-shine">${{ cartService.cartTotal().toLocaleString() }}</span>
+            </div>
+            <a routerLink="/appointment" (click)="toggleCart()" class="w-full gold-bg text-black text-center font-bold py-3 px-8 rounded-full text-lg btn-pop">
+              Schedule Appointment
+            </a>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Footer -->
+    <footer class="bg-gray-900/50 border-t border-gray-800">
+      <div class="container mx-auto px-6 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+          <div>
+            <h3 class="text-xl font-bold text-shine mb-4">Madni Jewellers</h3>
+            <p class="text-gray-400">Crafting timeless Pakistani heritage in Gujrat since 1980.</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+            <ul>
+              <li class="mb-2"><a routerLink="/products" class="text-gray-400 hover:text-shine">Our Collections</a></li>
+              <li class="mb-2"><a routerLink="/order-tracking" class="text-gray-400 hover:text-shine">Track Your Order</a></li>
+              <li class="mb-2"><a href="#" class="text-gray-400 hover:text-shine">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-white mb-4">Follow Us</h3>
+            <div class="flex justify-center md:justify-start space-x-4">
+              <a href="https://www.tiktok.com/" target="_blank" class="text-gray-400 hover:text-shine text-2xl"><i class="fab fa-tiktok"></i></a>
+              <a href="#" class="text-gray-400 hover:text-shine text-2xl"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-gray-400 hover:text-shine text-2xl"><i class="fab fa-facebook"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8 border-t border-gray-700 pt-6 text-center text-gray-500 text-sm">
+          <p>&copy; 2024 Madni Jewellers. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+}
+@if(authService.showLoginModal()) {
+  <app-login></app-login>
+}

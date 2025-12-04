@@ -1,0 +1,7 @@
+{
+  "name": "MADNI JEWELLERS ",
+  "description": "An elegant e-commerce experience for Madni Jewellers, featuring a virtual try-on assistant and an AI-powered chatbot to help you discover exquisite Pakistani traditional jewelry.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

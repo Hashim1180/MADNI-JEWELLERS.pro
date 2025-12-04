@@ -1,0 +1,21 @@
+<div class="fixed inset-0 bg-black/70 z-[1000] flex items-center justify-center animate-fade-in" (click)="closeModal()">
+  <div class="bg-glass rounded-lg shadow-2xl p-8 w-full max-w-md border border-gray-700" (click)="$event.stopPropagation()">
+    <h2 class="text-3xl font-bold text-shine text-center mb-2">Welcome</h2>
+    <p class="text-gray-400 text-center mb-6">Please enter your name to personalize your experience.</p>
+    <form (submit)="login()">
+      <input 
+        type="text"
+        [(ngModel)]="userName"
+        name="userName"
+        placeholder="Enter your name"
+        class="w-full bg-gray-800 text-white rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-gold mb-4"
+        autocomplete="name">
+      <button 
+        type="submit" 
+        [disabled]="!userName().trim()"
+        class="w-full gold-bg text-black font-bold py-3 px-8 rounded-full text-lg btn-pop disabled:opacity-50 disabled:cursor-not-allowed">
+        Continue
+      </button>
+    </form>
+  </div>
+</div>

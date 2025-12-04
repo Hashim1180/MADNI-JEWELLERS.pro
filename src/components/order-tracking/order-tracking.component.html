@@ -1,0 +1,70 @@
+<div class="container mx-auto px-6 py-16">
+  <div class="text-center mb-12" appScrollAnimate>
+    <h1 class="text-4xl md:text-5xl font-bold text-shine mb-4">Track Your Order</h1>
+    <p class="text-lg text-gray-400 max-w-3xl mx-auto">Enter your order ID to see the latest status of your purchase.</p>
+  </div>
+
+  <div class="max-w-2xl mx-auto bg-gray-900/50 rounded-lg shadow-2xl shadow-black/40 p-8" appScrollAnimate>
+    <form (submit)="trackOrder()">
+      <div class="flex flex-col sm:flex-row items-center gap-4">
+        <input 
+          type="text"
+          [(ngModel)]="orderId"
+          name="orderId"
+          placeholder="Enter your Order ID (e.g., MJ-1024)"
+          class="flex-grow w-full bg-gray-800 text-white rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500"
+          autocomplete="off">
+        <button 
+          type="submit" 
+          [disabled]="isLoading() || orderId().trim() === ''"
+          class="bg-gradient-to-r from-amber-400 to-amber-600 text-black font-bold rounded-full w-full sm:w-auto px-8 py-3 flex items-center justify-center shrink-0 disabled:bg-gray-600 disabled:cursor-not-allowed btn-pop">
+          @if (isLoading()) {
+            <i class="fas fa-spinner fa-spin"></i>
+          } @else {
+            <i class="fas fa-search mr-2"></i>
+            <span>Track</span>
+          }
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-8 min-h-[200px]">
+      @if (searchedOrder() === undefined && !isLoading()) {
+        <div class="text-center text-gray-500 pt-8">
+            <p>Your order status will appear here.</p>
+        </div>
+      }
+      @if (isLoading()) {
+         <div class="flex justify-center items-center h-full pt-8">
+            <i class="fas fa-spinner fa-spin text-4xl text-shine"></i>
+        </div>
+      } @else if (searchedOrder()) {
+        @if(searchedOrder(); as order) {
+            <div class="bg-black/20 p-6 rounded-lg animate-fade-in">
+                <h3 class="text-2xl font-bold text-white">Order Status for #{{order.id}}</h3>
+                <div class="mt-4 space-y-3">
+                    <p><strong class="text-shine w-36 inline-block">Status:</strong> 
+                        <span class="px-2 py-1 inline-flex text-sm leading-5 font-semibold rounded-full"
+                              [class]="{
+                                'bg-green-900/50 text-green-300': order.status === 'Delivered',
+                                'bg-blue-900/50 text-blue-300': order.status === 'Agent Dispatched',
+                                'bg-purple-900/50 text-purple-300': order.status === 'Appointment Scheduled',
+                                'bg-yellow-900/50 text-yellow-300': order.status === 'Processing'
+                              }">
+                                {{order.status}}
+                        </span>
+                    </p>
+                    <p><strong class="text-shine w-36 inline-block">Details:</strong> {{order.estimatedDelivery}}</p>
+                </div>
+            </div>
+        }
+      } @else if (searchedOrder() === null) {
+         <div class="text-center pt-8 animate-fade-in">
+            <i class="fas fa-exclamation-circle text-4xl text-red-500 mb-4"></i>
+            <p class="text-xl text-white">Order Not Found</p>
+            <p class="text-gray-400">Please check the order ID and try again.</p>
+         </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+
+:host {
+  display: block;
+}
+
+/* Base Styles */
+.drawing-path,
+.fade-in-text,
+.particles-container,
+.final-logo {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+
+/* SVG Drawing Animation */
+.drawing-path {
+  stroke-dasharray: 350;
+  stroke-dashoffset: 350;
+  animation: draw 2.5s ease-in-out forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Text Fade In */
+.fade-in-text {
+  opacity: 0;
+  animation: fadeInText 2s ease-out 0.5s forwards;
+}
+
+@keyframes fadeInText {
+  to { opacity: 1; }
+}
+
+/* Particle Explosion */
+.particles-container {
+    opacity: 0;
+    pointer-events: none;
+}
+.particles-container.explode {
+    opacity: 1;
+    animation: hide-particles 1s 1s forwards;
+}
+
+.particles-container::before,
+.particles-container::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 
+        /* Create a cloud of particles with random positions and animation delays */
+        -30px -40px 0 #FFFDE4, 30px -40px 0 #B8860B, 0 50px 0 #FFFDE4,
+        -60px 20px 0 #B8860B, 60px 20px 0 #FFFDE4, -60px -60px 0 #B8860B,
+        60px -60px 0 #FFFDE4, -90px 0 0 #B8860B, 90px 0 0 #FFFDE4,
+        0 -90px 0 #B8860B, 0 90px 0 #FFFDE4,
+        -120px 40px 0 #B8860B, 120px 40px 0 #FFFDE4;
+    animation: explode-particles 1s ease-out forwards;
+}
+.particles-container::after {
+    transform: rotate(45deg);
+}
+
+@keyframes explode-particles {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes hide-particles {
+    to { opacity: 0; }
+}
+
+/* Final Logo Reveal */
+.final-logo {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.final-logo.visible {
+  opacity: 1;
+  transform: scale(1);
+}

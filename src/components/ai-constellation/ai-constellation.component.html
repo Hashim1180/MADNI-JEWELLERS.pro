@@ -1,0 +1,79 @@
+<div class="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none">
+  <svg #constellationSvg class="w-full h-full max-w-5xl pointer-events-auto" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <filter id="blue-glow">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"></feGaussianBlur>
+        <feMerge>
+          <feMergeNode in="coloredBlur"></feMergeNode>
+          <feMergeNode in="SourceGraphic"></feMergeNode>
+        </feMerge>
+      </filter>
+      <radialGradient id="starGradient">
+        <stop offset="0%" stop-color="#fff" />
+        <stop offset="100%" stop-color="#D4AF37" />
+      </radialGradient>
+      <radialGradient id="blueStarGradient">
+        <stop offset="0%" stop-color="#fff" />
+        <stop offset="100%" stop-color="#00f0ff" />
+      </radialGradient>
+    </defs>
+    
+    <!-- Background Grid Lines -->
+    <path class="line" d="M 500 100 L 300 300" stroke="#00f0ff" stroke-width="0.2" stroke-dasharray="2 4" opacity="0.2"/>
+    <path class="line" d="M 500 100 L 700 300" stroke="#00f0ff" stroke-width="0.2" stroke-dasharray="2 4" opacity="0.2"/>
+    <path class="line" d="M 300 300 L 500 500" stroke="#00f0ff" stroke-width="0.2" stroke-dasharray="2 4" opacity="0.2"/>
+    <path class="line" d="M 700 300 L 500 500" stroke="#00f0ff" stroke-width="0.2" stroke-dasharray="2 4" opacity="0.2"/>
+
+    <!-- Connecting Gold Lines -->
+    <path class="line" d="M 500 100 L 500 250" stroke="#D4AF37" stroke-width="1" opacity="0.6"/> <!-- Hub to Center -->
+    <path class="line" d="M 500 250 L 300 300" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+    <path class="line" d="M 500 250 L 700 300" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+    <path class="line" d="M 300 300 L 200 450" stroke="#D4AF37" stroke-width="0.5" opacity="0.3"/>
+    <path class="line" d="M 700 300 L 800 450" stroke="#D4AF37" stroke-width="0.5" opacity="0.3"/>
+
+    <!-- Interactive Nodes -->
+    <g class="star-group">
+      
+      <!-- Center Hub: Appointment -->
+      <a routerLink="/appointment" class="group">
+        <circle class="orbit-ring" cx="500" cy="250" r="40" fill="none" stroke="#D4AF37" stroke-width="0.5" opacity="0.3" />
+        <circle class="orbit-ring-rev" cx="500" cy="250" r="30" fill="none" stroke="#D4AF37" stroke-width="0.5" opacity="0.3" stroke-dasharray="10 10" />
+        <circle id="star-hub" class="star" cx="500" cy="250" r="8" fill="url(#starGradient)" (mouseenter)="handleStarHover($event)" (mouseleave)="handleStarLeave($event)"/>
+        <text class="star-label font-tech tracking-widest" data-star="star-hub" x="500" y="315" text-anchor="middle" fill="#fff" font-size="10" opacity="0.8">CONSULTATION_HUB</text>
+      </a>
+
+      <!-- Top: Market Watch -->
+      <a routerLink="/market-watch" class="group">
+        <circle id="star-market" class="star" cx="500" cy="100" r="5" fill="url(#blueStarGradient)" filter="url(#blue-glow)" (mouseenter)="handleStarHover($event)" (mouseleave)="handleStarLeave($event)"/>
+        <text class="star-label font-tech" data-star="star-market" x="500" y="80" text-anchor="middle" fill="#00f0ff" font-size="10" opacity="0.7">MARKET_INTEL</text>
+      </a>
+
+      <!-- Left: Virtual Try On -->
+      <a routerLink="/virtual-try-on" class="group">
+        <circle class="orbit-ring" cx="300" cy="300" r="25" fill="none" stroke="#00f0ff" stroke-width="0.3" opacity="0.2" />
+        <circle id="star-vto" class="star" cx="300" cy="300" r="6" fill="url(#blueStarGradient)" (mouseenter)="handleStarHover($event)" (mouseleave)="handleStarLeave($event)"/>
+        <text class="star-label font-tech" data-star="star-vto" x="300" y="340" text-anchor="middle" fill="#fff" font-size="10" opacity="0.7">VIRTUAL_MIRROR</text>
+      </a>
+
+      <!-- Right: Design Studio -->
+      <a routerLink="/design-studio" class="group">
+        <circle class="orbit-ring" cx="700" cy="300" r="25" fill="none" stroke="#00f0ff" stroke-width="0.3" opacity="0.2" />
+        <circle id="star-ds" class="star" cx="700" cy="300" r="6" fill="url(#blueStarGradient)" (mouseenter)="handleStarHover($event)" (mouseleave)="handleStarLeave($event)"/>
+        <text class="star-label font-tech" data-star="star-ds" x="700" y="340" text-anchor="middle" fill="#fff" font-size="10" opacity="0.7">DESIGN_LAB</text>
+      </a>
+
+      <!-- Bottom Left: Soulbound -->
+      <a routerLink="/soulbound-jewels" class="group">
+        <circle id="star-sb" class="star" cx="200" cy="450" r="4" fill="url(#blueStarGradient)" (mouseenter)="handleStarHover($event)" (mouseleave)="handleStarLeave($event)"/>
+        <text class="star-label font-tech" data-star="star-sb" x="200" y="475" text-anchor="middle" fill="#fff" font-size="10" opacity="0.6">SOULBOUND</text>
+      </a>
+
+      <!-- Bottom Right: Ledger -->
+      <a routerLink="/client-ledger" class="group">
+        <circle id="star-cl" class="star" cx="800" cy="450" r="4" fill="url(#blueStarGradient)" (mouseenter)="handleStarHover($event)" (mouseleave)="handleStarLeave($event)"/>
+        <text class="star-label font-tech" data-star="star-cl" x="800" y="475" text-anchor="middle" fill="#fff" font-size="10" opacity="0.6">LEDGER</text>
+      </a>
+      
+    </g>
+  </svg>
+</div>

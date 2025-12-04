@@ -1,0 +1,78 @@
+<div class="container mx-auto px-6 py-16">
+  <div class="text-center mb-12" appScrollAnimate>
+    <h1 class="text-4xl md:text-5xl font-bold text-shine mb-4">Schedule Your Private Consultation</h1>
+    <p class="text-lg text-gray-400 max-w-3xl mx-auto">To finalize your selection and arrange for our secure, private agent delivery, please book a personal appointment with Mr. Awais.</p>
+  </div>
+
+  <div class="max-w-5xl mx-auto bg-gray-900/50 rounded-lg shadow-2xl shadow-black/40 p-8" appScrollAnimate>
+    @if(cartService.cart().length === 0 && !appointmentBooked()) {
+        <div class="text-center p-8">
+            <i class="fas fa-shopping-bag text-6xl text-gray-600 mb-4"></i>
+            <h2 class="text-2xl font-bold text-white">Your Selection is Empty</h2>
+            <p class="text-gray-400 mt-2">Please add items to your selection before scheduling an appointment.</p>
+            <a routerLink="/products" class="mt-6 gold-bg text-black font-bold py-3 px-8 rounded-full text-lg btn-pop inline-block">Explore Collections</a>
+        </div>
+    } @else if (!appointmentBooked()) {
+      <div class="grid md:grid-cols-2 gap-12">
+        <!-- Order Summary -->
+        <div>
+          <h2 class="text-2xl font-bold text-white border-b border-gray-700 pb-3 mb-4">Your Selection</h2>
+          <div class="space-y-4 max-h-96 overflow-y-auto pr-4">
+            @for (item of cartService.cart(); track item.product.id) {
+              <div class="flex items-center space-x-4">
+                <img [src]="item.product.imageUrl" [alt]="item.product.name" class="w-20 h-20 object-cover rounded-md">
+                <div class="flex-grow">
+                  <p class="font-bold text-white">{{ item.product.name }}</p>
+                  <p class="text-sm text-gray-400">Qty: {{ item.quantity }}</p>
+                </div>
+                <p class="text-amber-400 font-semibold">${{ (item.product.price * item.quantity).toLocaleString() }}</p>
+              </div>
+            }
+          </div>
+          <div class="mt-6 border-t border-gray-700 pt-4">
+            <div class="flex justify-between items-center text-xl">
+              <span class="font-bold">Total</span>
+              <span class="font-bold text-shine">${{ cartService.cartTotal().toLocaleString() }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Appointment Form -->
+        <div>
+          <h2 class="text-2xl font-bold text-white border-b border-gray-700 pb-3 mb-4">Confirm Your Details</h2>
+          <form (submit)="bookAppointment()">
+            <div class="space-y-4">
+              <div>
+                <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                <input type="text" id="name" name="userName" [(ngModel)]="userName" class="w-full bg-gray-800 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-500" required>
+              </div>
+              <div>
+                <label for="phone" class="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
+                <input type="tel" id="phone" name="userPhone" [(ngModel)]="userPhone" placeholder="+92 3XX XXXXXXX" class="w-full bg-gray-800 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-500" required>
+              </div>
+              <button 
+                type="submit" 
+                [disabled]="!userName().trim() || !userPhone().trim()"
+                class="w-full gold-bg text-black font-bold py-3 px-8 rounded-full text-lg btn-pop disabled:opacity-50 disabled:cursor-not-allowed">
+                Book My Appointment
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    } @else {
+      @if (bookedOrder(); as order) {
+        <div class="text-center animate-fade-in p-8">
+          <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
+          <h2 class="text-3xl font-bold text-shine">Appointment Confirmed!</h2>
+          <p class="text-gray-300 mt-2">Your consultation is scheduled. Mr. Awais will contact you shortly to finalize the details.</p>
+          <div class="mt-6 bg-black/30 rounded-lg p-4 max-w-md mx-auto">
+            <p class="text-lg">Your Order ID: <strong class="text-white">{{ order.id }}</strong></p>
+            <p class="text-gray-400 text-sm">Use this ID to track your order status.</p>
+            <p class="mt-4">For any immediate questions, please contact Mr. Awais at <strong class="text-white">+92 300 6262886</strong>.</p>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="flex items-center space-x-2 text-xs font-mono">
+  <span class="relative flex h-3 w-3">
+    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" [ngClass]="indicatorColor() === 'text-green-500' ? 'bg-green-400' : 'bg-yellow-400'"></span>
+    <span class="relative inline-flex rounded-full h-3 w-3" [ngClass]="indicatorColor()"></span>
+  </span>
+  <span class="text-cosmic-latte/60">{{ currentStatus() }}</span>
+</div>

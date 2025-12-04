@@ -1,0 +1,111 @@
+
+[
+  {
+    "id": 1,
+    "name": "Madni Signature Bridal Set",
+    "description": "A heavy 24k gold bridal masterpiece featuring intricate filigree work, complete with a choker, long mala, earrings, and tikka. The signature look of Madni Jewellers.",
+    "price": 850000,
+    "imageUrl": "https://picsum.photos/seed/madni1/600/600",
+    "category": "Bridal Sets",
+    "stock": 1
+  },
+  {
+    "id": 2,
+    "name": "Traditional Gold Rani Haar",
+    "description": "An exquisite long Rani Haar crafted in pure gold with red and green meenakari accents. A timeless heirloom piece.",
+    "price": 420000,
+    "imageUrl": "https://picsum.photos/seed/madni2/600/600",
+    "category": "Necklaces",
+    "stock": 3
+  },
+  {
+    "id": 3,
+    "name": "Gujrati Polki Jhumkas",
+    "description": "Classic heavy gold jhumkas embellished with uncut polki diamonds and pearl drops. Traditional craftsmanship from Gujrat.",
+    "price": 125000,
+    "imageUrl": "https://picsum.photos/seed/madni3/600/600",
+    "category": "Earrings",
+    "stock": 8
+  },
+  {
+    "id": 4,
+    "name": "Antique Mala Set",
+    "description": "A stunning antique-finish gold mala paired with matching tops. Elegant and sophisticated for formal gatherings.",
+    "price": 280000,
+    "imageUrl": "https://picsum.photos/seed/madni4/600/600",
+    "category": "Necklaces",
+    "stock": 4
+  },
+  {
+    "id": 5,
+    "name": "Turkish Gold Ring",
+    "description": "Modern 21k Turkish gold ring with a laser-cut mesh design. Lightweight yet impactful.",
+    "price": 45000,
+    "imageUrl": "https://picsum.photos/seed/madni5/600/600",
+    "category": "Rings",
+    "stock": 15
+  },
+  {
+    "id": 6,
+    "name": "Solid Gold Bangles (Kangan)",
+    "description": "Pair of heavy solid gold Kangans with screw opening mechanism and embossed floral patterns.",
+    "price": 350000,
+    "imageUrl": "https://picsum.photos/seed/madni6/600/600",
+    "category": "Bangles",
+    "stock": 5
+  },
+  {
+    "id": 7,
+    "name": "Emerald & Gold Choker",
+    "description": "A fitted gold choker set embedded with real emerald stones, perfect for Walima brides.",
+    "price": 550000,
+    "imageUrl": "https://picsum.photos/seed/madni7/600/600",
+    "category": "Bridal Sets",
+    "stock": 2
+  },
+  {
+    "id": 8,
+    "name": "Locket Set (Lightweight)",
+    "description": "A delicate gold chain and locket set with matching small tops. Ideal for daily wear or gifting.",
+    "price": 65000,
+    "imageUrl": "https://picsum.photos/seed/madni8/600/600",
+    "category": "Gift Sets",
+    "stock": 12
+  },
+  {
+    "id": 9,
+    "name": "Men's Gold Signet Ring",
+    "description": "Classic square-top gold ring for men with a black onyx stone center.",
+    "price": 75000,
+    "imageUrl": "https://picsum.photos/seed/madni9/600/600",
+    "category": "Men's Jewelry",
+    "stock": 6
+  },
+  {
+    "id": 10,
+    "name": "Diamond Solitaire Ring",
+    "description": "Certified diamond solitaire set in 18k white gold. Simple, modern, and elegant.",
+    "price": 180000,
+    "imageUrl": "https://picsum.photos/seed/madni10/600/600",
+    "category": "Rings",
+    "stock": 5
+  },
+  {
+    "id": 11,
+    "name": "Matha Patti & Tikka Set",
+    "description": "Full coverage gold headpiece (Matha Patti) with intricate detailing for the perfect bridal look.",
+    "price": 140000,
+    "imageUrl": "https://picsum.photos/seed/madni11/600/600",
+    "category": "Headpieces",
+    "stock": 3
+  },
+  {
+    "id": 12,
+    "name": "Italian Gold Bracelet",
+    "description": "Sleek and stylish Italian 21k gold bracelet with a high-polish finish.",
+    "price": 95000,
+    "imageUrl": "https://picsum.photos/seed/madni12/600/600",
+    "category": "Bangles",
+    "stock": 10
+  }
+]

@@ -1,0 +1,90 @@
+<div class="relative min-h-screen py-16 tech-grid-bg">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-12" appScrollAnimate>
+        <h1 class="text-4xl md:text-5xl font-bold text-shine mb-4">Bespoke Design Studio</h1>
+        <p class="text-lg text-cosmic-latte/80 max-w-3xl mx-auto">Become the creator of your own masterpiece. Select your materials and style, and let our AI Master Goldsmith offer their insights on your unique design.</p>
+      </div>
+    
+      <div class="max-w-4xl mx-auto bg-nebula-blue/50 backdrop-blur-md rounded-lg shadow-2xl shadow-black/40 p-8 border border-gray-700" appScrollAnimate>
+        <form [formGroup]="designForm" (submit)="getFeedback()">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Step 1: Metal -->
+            <div>
+              <h3 class="text-xl font-bold text-white mb-4"><span class="text-shine">Step 1:</span> Choose Your Metal</h3>
+              <div class="grid grid-cols-2 gap-4">
+                @for(metal of metals; track metal) {
+                  <div>
+                    <input type="radio" [id]="metal" formControlName="metal" [value]="metal" class="hidden peer">
+                    <label [for]="metal" class="block p-4 border-2 rounded-lg cursor-pointer text-center peer-checked:border-gold peer-checked:text-gold peer-checked:bg-onyx/50 border-gray-700 hover:border-gold transition-colors">
+                      {{metal}}
+                    </label>
+                  </div>
+                }
+              </div>
+            </div>
+    
+            <!-- Step 2: Stone -->
+            <div>
+              <h3 class="text-xl font-bold text-white mb-4"><span class="text-shine">Step 2:</span> Select a Gemstone</h3>
+               <div class="grid grid-cols-2 gap-4">
+                @for(stone of stones; track stone) {
+                  <div>
+                    <input type="radio" [id]="stone" formControlName="stone" [value]="stone" class="hidden peer">
+                    <label [for]="stone" class="block p-4 border-2 rounded-lg cursor-pointer text-center peer-checked:border-gold peer-checked:text-gold peer-checked:bg-onyx/50 border-gray-700 hover:border-gold transition-colors">
+                      {{stone}}
+                    </label>
+                  </div>
+                }
+              </div>
+            </div>
+    
+            <!-- Step 3: Style -->
+            <div>
+              <h3 class="text-xl font-bold text-white mb-4"><span class="text-shine">Step 3:</span> Define the Style</h3>
+              <div class="grid grid-cols-2 gap-4">
+                @for(style of styles; track style) {
+                  <div>
+                    <input type="radio" [id]="style" formControlName="style" [value]="style" class="hidden peer">
+                    <label [for]="style" class="block p-4 border-2 rounded-lg cursor-pointer text-center peer-checked:border-gold peer-checked:text-gold peer-checked:bg-onyx/50 border-gray-700 hover:border-gold transition-colors">
+                      {{style}}
+                    </label>
+                  </div>
+                }
+              </div>
+            </div>
+    
+            <!-- Step 4: Engraving -->
+            <div>
+              <h3 class="text-xl font-bold text-white mb-4"><span class="text-shine">Step 4:</span> Add an Engraving (Optional)</h3>
+              <input type="text" formControlName="engraving" placeholder="A special date or message..." class="w-full bg-onyx/50 text-white rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-gold border border-gray-700">
+            </div>
+          </div>
+    
+          <div class="mt-8 border-t border-gray-700 pt-8">
+            <button 
+              type="submit"
+              [disabled]="isLoading() || designForm.invalid"
+              class="w-full gold-bg text-black font-bold py-3 px-8 rounded-full text-lg btn-pop disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center">
+               @if (isLoading()) {
+                <i class="fas fa-spinner fa-spin mr-2"></i>
+                <span>Consulting the Master Goldsmith...</span>
+              } @else {
+                <i class="fas fa-gavel mr-2"></i>
+                <span>Get AI Goldsmith Feedback</span>
+              }
+            </button>
+          </div>
+        </form>
+    
+        @if (feedback()) {
+          <div class="mt-8 bg-onyx/50 border border-gray-700 p-6 rounded-lg animate-fade-in">
+            <h3 class="text-xl font-bold text-shine mb-2">A Word from the Master Goldsmith</h3>
+            <p class="text-cosmic-latte/90 italic">"{{ feedback() }}"</p>
+          </div>
+        }
+         @if(error()) {
+            <p class="text-red-400 mt-4 text-center">{{error()}}</p>
+        }
+      </div>
+    </div>
+</div>

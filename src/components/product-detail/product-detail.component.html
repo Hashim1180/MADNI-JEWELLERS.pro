@@ -1,0 +1,57 @@
+<div class="container mx-auto px-6 py-16">
+  @if (isLoading()) {
+    <div class="flex justify-center items-center h-96">
+      <i class="fas fa-spinner fa-spin text-4xl text-shine"></i>
+    </div>
+  } @else if (product()) {
+    @if(product(); as p) {
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start" appScrollAnimate>
+        <!-- Product Image -->
+        <div class="bg-gray-900/50 rounded-lg shadow-lg overflow-hidden">
+            <img [ngSrc]="p.imageUrl" [alt]="p.name" width="800" height="800" class="w-full h-full object-cover">
+        </div>
+
+        <!-- Product Details -->
+        <div>
+            <a routerLink="/products" class="text-amber-400 hover:text-amber-200 text-sm"><i class="fas fa-arrow-left mr-2"></i>Back to Collections</a>
+            <h1 class="text-4xl md:text-5xl font-bold text-shine my-4">{{ p.name }}</h1>
+            <span class="inline-block bg-gray-700 text-gray-300 text-sm font-semibold px-3 py-1 rounded-full mb-4">{{ p.category }}</span>
+            <p class="text-gray-300 text-lg leading-relaxed mb-6">{{ p.description }}</p>
+            
+            <div class="my-6">
+                <span class="text-4xl font-bold text-white">${{ p.price.toLocaleString() }}</span>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button (click)="addToCart(p)" class="bg-gradient-to-r from-amber-400 to-amber-600 text-black font-bold py-3 px-10 rounded-full text-lg btn-pop">
+                    <i class="fas fa-shopping-bag mr-2"></i>
+                    Add to Selection
+                </button>
+            </div>
+            
+            <div class="mt-8 border-t border-gray-700 pt-6 space-y-4 text-gray-400">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle w-6 text-green-500"></i>
+                    <span>In Stock ({{ p.stock }} available)</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-shield-alt w-6 text-amber-500"></i>
+                    <span>Certified Purity & Craftsmanship</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-user-secret w-6 text-blue-400"></i>
+                    <span>Secure Delivery via Private Agents</span>
+                </div>
+            </div>
+        </div>
+      </div>
+    }
+  } @else {
+    <div class="text-center h-96 flex flex-col justify-center items-center" appScrollAnimate>
+        <i class="fas fa-exclamation-triangle text-5xl text-red-500 mb-4"></i>
+        <h2 class="text-3xl font-bold text-white">Product Not Found</h2>
+        <p class="text-gray-400 mt-2">We couldn't find the item you're looking for.</p>
+        <a routerLink="/products" class="mt-6 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-bold py-3 px-8 rounded-full text-lg btn-pop">Explore Our Collection</a>
+    </div>
+  }
+</div>
